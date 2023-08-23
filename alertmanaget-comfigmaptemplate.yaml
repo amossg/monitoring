@@ -170,8 +170,3 @@ data:
     {{ end }}
     {{ end }}
     {{ define "pushover.default.url" }}{{ template "__alertmanagerURL" . }}{{ end }}
-  slack.tmpl: |
-    {{ define "slack.devops.text" }}
-    {{range .Alerts}}{{.Annotations.DESCRIPTION}}
-    {{end}}
-    {{ end }}
