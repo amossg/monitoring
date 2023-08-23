@@ -1,0 +1,26 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |-
+    global:
+    templates:
+    - '/etc/alertmanager/*.tmpl'
+    route:
+      receiver: 'telegram-notifier'
+      group_by: ['alertname', 'priority']
+      group_wait: 10s
+      repeat_interval: 10m
+
+ 
+    receivers:
+    - name: 'telegram-notifier'
+      telegram_configs:
+      - bot_token: ''
+        api_url: 'https://api.telegram.org'
+        chat_id: 
+        parse_mode: ''
+        send_resolved: false
+        message: "🔥Alertname: {{ .GroupLabels.alertname }}\n 🔥Severity: {{ .CommonLabels.severity }}\n 🔥Summary: {{ .CommonAnnotations.summary }}\n 🔥Description: {{ .CommonAnnotations.description }}\n"
